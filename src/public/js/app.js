@@ -1,3 +1,1 @@
-hello;
-
-asdasdada
+alert("Hi");
