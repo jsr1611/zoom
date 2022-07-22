@@ -6,7 +6,7 @@ const {instrument} = require("@socket.io/admin-ui");
 
 
 const app = express();
-const PORT = 3001;
+const PORT = 3000;
 
 app.set("view engine", "pug");
 app.set("views", __dirname + "/views");
