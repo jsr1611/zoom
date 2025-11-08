@@ -93,6 +93,34 @@ cameraSelect.addEventListener("input", async () => {
         videoSender.replaceTrack(videoTrack);
     }
 });
+const leaveBtn = document.getElementById("leave");
+
+leaveBtn.addEventListener("click", leaveRoom);
+
+function leaveRoom() {
+    if (myPeerConnection) {
+        myPeerConnection.close();
+        myPeerConnection = null;
+    }
+
+    // Stop all local media
+    if (myStream) {
+        myStream.getTracks().forEach((track) => track.stop());
+    }
+
+    // Tell server we're leaving
+    if (roomName) {
+        socket.emit("leave_room", roomName);
+    }
+
+    // Reset UI
+    call.classList.add("hidden");
+    welcome.classList.remove("hidden");
+    document.getElementById("roomLabel").classList.add("hidden");
+
+    // Reset background
+    document.body.style.background = "#fafafa";
+}
 
 
 async function initCall() {
