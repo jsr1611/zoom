@@ -152,83 +152,61 @@ select {
         margin: 0;
         padding: 0;
         height: 100%;
-        overflow: hidden;
+        overflow-y: auto;
+        overflow-x: hidden;
         background: #000;
     }
 
     #call {
         position: relative;
         width: 100%;
-        height: 100vh;
+        min-height: 100vh;
         background: #000;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.8rem;
+        padding-bottom: 5rem;
+        /* leave room for controls */
     }
 
+    /* Stack videos vertically */
     .video-container {
-        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         width: 100%;
-        height: 100%;
-        isolation: isolate;
+        gap: 0.8rem;
+        background: #000;
     }
 
-    /* Force override desktop flex layout for mobile */
     #myStream,
     #peerStream {
-        flex: none !important;
-        min-width: 0 !important;
-    }
-
-    /* === Fullscreen remote video === */
-    #peerStream {
-        position: absolute;
-        top: 0;
-        left: 0;
+        position: relative;
         width: 100%;
-        height: 100%;
-        z-index: 1;
+        min-width: unset;
+        flex: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    #peerStream video {
+    .video-box {
         width: 100%;
-        height: 100%;
-        object-fit: cover;
-        background: #000;
-    }
-
-    /* === Floating self-view (PiP) === */
-    #myStream {
-        position: absolute;
-        bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
-        right: 1rem;
-        width: 32%;
-        max-width: 140px;
         aspect-ratio: 16 / 9;
-        border-radius: 10px;
-        overflow: hidden;
-        z-index: 5;
-        /* higher than peer stream */
         background: #000;
-        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 10px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-        transition: all 0.3s ease;
+        overflow: hidden;
     }
 
-
-    #myStream video {
+    video {
         width: 100%;
         height: 100%;
         object-fit: cover;
-    }
-
-    /* === Center self-view fullscreen when alone === */
-    body:not(.has-peer) #myStream {
-        width: 100%;
-        height: 100%;
-        max-width: none;
-        border-radius: 0;
-        bottom: 0;
-        right: 0;
-        box-shadow: none;
+        background: #000;
     }
 
     /* === Compact Controls Bar === */
@@ -237,12 +215,12 @@ select {
         bottom: 0;
         left: 0;
         width: 100%;
-        background: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.95);
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 0.4rem;
-        padding: 0.4rem 0.6rem;
+        padding: 0.6rem;
         box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.25);
         z-index: 3;
         backdrop-filter: blur(6px);
@@ -250,10 +228,10 @@ select {
 
     .controls button,
     .controls select {
-        width: 88%;
-        max-width: 280px;
+        width: 90%;
+        max-width: 320px;
         font-size: 0.9rem;
-        padding: 0.45rem 0.7rem;
+        padding: 0.5rem 0.7rem;
         border-radius: 8px;
     }
 
@@ -275,7 +253,6 @@ select {
         display: none;
     }
 }
-
 
 
 @media (orientation: landscape) and (max-width: 900px) {
