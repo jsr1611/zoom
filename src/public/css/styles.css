@@ -10,9 +10,7 @@ body {
     margin: 0;
     padding: 0.5rem;
     overflow-x: hidden;
-    /* prevent side scroll */
 }
-
 
 main {
     width: 100%;
@@ -35,81 +33,59 @@ header h1 {
     display: none !important;
 }
 
-/* === VIDEO AREA === */
+/* === VIDEO AREA (Desktop) === */
 #call {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
     max-width: 1400px;
-    padding: 0 1rem 2rem;
-}
-
-#call {
-    padding-bottom: 1rem;
-}
-
-#call {
+    padding: 1rem;
     min-height: 100vh;
+    background: #000;
 }
-
-.video-container {
-    min-height: 100%;
-}
-
-
 
 .video-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    flex-wrap: wrap;
+    align-items: center;
+    flex-wrap: nowrap;
     width: 100%;
-    gap: 2rem;
+    flex: 1;
+    gap: 1rem;
 }
 
-/* === STREAM CONTAINERS === */
 #myStream,
 #peerStream {
-    flex: 1 1 48%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 400px;
+    justify-content: center;
     position: relative;
+    width: 100%;
+    min-width: 0;
 }
 
-/* === VIDEO BOX === */
 .video-box {
     width: 100%;
     aspect-ratio: 16 / 9;
-    background: #fff;
-    border-radius: 18px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    background: #000;
+    border-radius: 16px;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
-    transition: all 0.3s ease;
 }
 
-.video-box:hover {
-    transform: scale(1.01);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-}
-
-/* Keep the container gap smaller */
-.video-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-wrap: wrap;
+.video-box video {
     width: 100%;
-    gap: 1.5rem;
+    height: 100%;
+    object-fit: cover;
+    background: #000;
 }
 
-/* === CONTROLS (Desktop default) === */
+/* === CONTROLS (Desktop) === */
 .controls {
     position: relative;
     margin-top: 1rem;
@@ -119,7 +95,6 @@ header h1 {
     flex-wrap: wrap;
     gap: 0.5rem;
 }
-
 
 button,
 select {
@@ -157,53 +132,48 @@ select {
     }
 
     #call {
-        display: flex;
         flex-direction: column;
-        align-items: center;
         justify-content: flex-start;
+        align-items: center;
         width: 100%;
         height: 100vh;
         background: #000;
         overflow: hidden;
-        position: relative;
+        padding: 0;
     }
 
-    /* === Stack guest on top, my video below === */
+    /* === Stack guest (top) and self (bottom) === */
     .video-container {
         display: flex;
         flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
         width: 100%;
         height: calc(100vh - 5rem);
-        /* room for controls */
+        /* space for controls */
         background: #000;
-        margin: 0;
-        padding: 0;
+        gap: 0;
+        transition: height 0.3s ease;
     }
 
     #peerStream {
         order: 1;
         flex: 1;
         width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
 
     #myStream {
         order: 2;
         flex: 1;
         width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
 
     .video-box {
         width: 100%;
         height: 100%;
-        background: #000;
         border-radius: 0;
-        overflow: hidden;
+        background: #000;
+        box-shadow: none;
     }
 
     video {
@@ -211,9 +181,10 @@ select {
         height: 100%;
         object-fit: cover;
         display: block;
+        background: #000;
     }
 
-    /* === Controls stick to bottom === */
+    /* === Controls (Mobile) === */
     .controls {
         position: fixed;
         bottom: 0;
@@ -224,7 +195,7 @@ select {
         flex-direction: column;
         align-items: center;
         gap: 0.4rem;
-        padding: 0.6rem 0.4rem env(safe-area-inset-bottom);
+        padding: 0.6rem 0.4rem calc(0.8rem + env(safe-area-inset-bottom));
         box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.25);
         z-index: 3;
         backdrop-filter: blur(6px);
@@ -240,43 +211,33 @@ select {
         border-radius: 8px;
     }
 
+    /* === Controls auto-hide === */
     .controls.hidden-controls {
         opacity: 0;
         transform: translateY(100%);
         pointer-events: none;
     }
 
-    /* === Expand videos when controls hidden === */
+    /* === When controls hidden, expand videos === */
     body.controls-hidden .video-container {
         height: 100vh;
-    }
-
-    .controls {
-        position: absolute;
     }
 
     header {
         display: none;
     }
-
-    /* Smooth transition */
-    .video-container {
-        transition: height 0.3s ease;
-    }
 }
 
-
-
+/* === LANDSCAPE (MOBILE) === */
 @media (orientation: landscape) and (max-width: 900px) {
     .video-container {
         flex-direction: row;
     }
 
-    #myStream {
-        position: static;
-        width: 45%;
-        max-width: none;
-        box-shadow: none;
+    #myStream,
+    #peerStream {
+        flex: 1;
+        height: 100%;
     }
 
     .controls {
@@ -286,7 +247,7 @@ select {
     }
 }
 
-/* === Auto-hide controls (fade animation) === */
+/* === Auto-hide animation === */
 .controls {
     opacity: 1;
     transition: opacity 0.4s ease-in-out, transform 0.4s ease;
@@ -296,8 +257,4 @@ select {
     opacity: 0;
     transform: translateY(100%);
     pointer-events: none;
-}
-
-.video-container {
-    transition: height 0.4s ease;
 }
