@@ -80,14 +80,22 @@ cameraSelect.addEventListener("input", async () => {
 });
 
 
-// 🧩 Room join logic
 async function initCall() {
     welcome.classList.add("hidden");
-    await getMedia();
-    makeConnection();
-    setTimeout(() => {
-        call.classList.remove("hidden");
-    }, 300);
+    await new Promise((res) => setTimeout(res, 150));
+
+    try {
+        await getMedia(); // get camera and mic stream
+        makeConnection();
+
+        setTimeout(() => {
+            call.classList.remove("hidden");
+            document.body.style.background = "#000"; // visually reset
+        }, 400);
+    } catch (err) {
+        alert("Camera access failed. Please allow permission and reload.");
+        console.error(err);
+    }
 }
 
 

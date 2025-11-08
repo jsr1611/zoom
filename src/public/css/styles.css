@@ -49,6 +49,15 @@ header h1 {
     padding-bottom: 1rem;
 }
 
+#call {
+    min-height: 100vh;
+}
+
+.video-container {
+    min-height: 100%;
+}
+
+
 
 .video-container {
     display: flex;
