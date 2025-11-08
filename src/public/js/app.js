@@ -103,12 +103,10 @@ function leaveRoom() {
         myPeerConnection = null;
     }
 
-    // Stop all local media
     if (myStream) {
         myStream.getTracks().forEach((track) => track.stop());
     }
 
-    // Tell server we're leaving
     if (roomName) {
         socket.emit("leave_room", roomName);
     }
@@ -118,9 +116,14 @@ function leaveRoom() {
     welcome.classList.remove("hidden");
     document.getElementById("roomLabel").classList.add("hidden");
 
-    // Reset background
+    muteBtn.innerText = "Mute";
+    videoBtn.innerText = "Turn Camera Off";
+    muted = false;
+    cameraOff = false;
+
     document.body.style.background = "#fafafa";
 }
+
 
 
 async function initCall() {
@@ -158,6 +161,7 @@ welcomeForm.addEventListener("submit", async (event) => {
     input.value = "";
 });
 
+
 // 🔗 Signaling
 socket.on("welcome", async () => {
     console.log("👋 Someone joined the room");
@@ -167,6 +171,39 @@ socket.on("welcome", async () => {
     console.log("📤 Sent offer");
     socket.emit("offer", offer, roomName);
 });
+
+
+// === Show active rooms on the welcome page ===
+const roomsListEl = document.createElement("div");
+roomsListEl.id = "roomsList";
+welcome.appendChild(roomsListEl);
+
+socket.on("rooms_list", (rooms) => {
+    roomsListEl.innerHTML = ""; // clear
+    if (rooms.length === 0) {
+        roomsListEl.innerHTML = "<p>No active rooms yet.</p>";
+        return;
+    }
+
+    const title = document.createElement("h3");
+    title.textContent = "Available Rooms:";
+    roomsListEl.appendChild(title);
+
+    rooms.forEach((room) => {
+        const btn = document.createElement("button");
+        btn.textContent = room;
+        btn.className = "room-btn";
+        btn.onclick = async () => {
+            roomName = room;
+            document.getElementById("roomLabel").textContent = `Room: ${room}`;
+            document.getElementById("roomLabel").classList.remove("hidden");
+            await initCall();
+            socket.emit("join_room", room);
+        };
+        roomsListEl.appendChild(btn);
+    });
+});
+
 socket.on("disconnect_peer", () => {
     document.body.classList.remove("has-peer");
 });
@@ -192,6 +229,12 @@ socket.on("ice", async (ice) => {
 
 socket.on("peer_left", () => {
     document.body.classList.remove("has-peer");
+});
+
+socket.on("room_full", (room) => {
+    alert(`🚫 The room "${room}" is full. Please join another or create a new one.`);
+    welcome.classList.remove("hidden");
+    call.classList.add("hidden");
 });
 
 
@@ -257,6 +300,7 @@ if (window.innerWidth < 900) {
     myVideoArea.addEventListener("click", toggleControls);
 
     // If auto-hide is running, only skip hiding when user explicitly hid controls
+    let hideTimeout;
     document.body.addEventListener("touchstart", () => {
         if (!manualOverride) {
             clearTimeout(hideTimeout);
