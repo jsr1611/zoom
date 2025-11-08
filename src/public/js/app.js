@@ -185,27 +185,45 @@ function handleAddStream(event) {
 }
 
 
-// === Auto-hide controls on mobile ===
+// === Extra behavior: manual tap toggle on my video ===
 if (window.innerWidth < 900) {
     const controls = document.querySelector(".controls");
-    let hideTimeout;
+    const myVideoArea = document.getElementById("myStream");
 
-    function showControls() {
-        controls.classList.remove("hidden-controls");
-        clearTimeout(hideTimeout);
-        hideTimeout = setTimeout(() => {
+    let manualOverride = false; // track user toggle
+
+    // Toggle manually
+    function toggleControls() {
+        const isHidden = controls.classList.contains("hidden-controls");
+
+        if (isHidden) {
+            // User shows controls
+            controls.classList.remove("hidden-controls");
+            document.body.classList.remove("controls-hidden");
+            manualOverride = false; // reset after showing
+        } else {
+            // User hides controls
             controls.classList.add("hidden-controls");
-        }, 3000); // hide after 3 seconds
+            document.body.classList.add("controls-hidden");
+            manualOverride = true;
+        }
     }
 
-    // Show controls on tap anywhere
-    document.body.addEventListener("touchstart", showControls);
-    document.body.addEventListener("click", showControls);
+    // Listen for taps on own video
+    myVideoArea.addEventListener("touchstart", toggleControls);
+    myVideoArea.addEventListener("click", toggleControls);
 
-    // Start hidden after 3s of load
-    hideTimeout = setTimeout(() => {
-        controls.classList.add("hidden-controls");
-    }, 3000);
+    // If auto-hide is running, only skip hiding when user explicitly hid controls
+    document.body.addEventListener("touchstart", () => {
+        if (!manualOverride) {
+            clearTimeout(hideTimeout);
+            hideTimeout = setTimeout(() => {
+                controls.classList.add("hidden-controls");
+                document.body.classList.add("controls-hidden");
+            }, 3000);
+        }
+    });
 }
+
 
 
