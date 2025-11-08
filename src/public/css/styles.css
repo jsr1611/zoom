@@ -168,32 +168,29 @@ select {
         position: relative;
     }
 
-    /* === Unified video container === */
+    /* === Stack videos vertically (peer on top, self on bottom) === */
     .video-container {
         display: flex;
         flex-direction: column-reverse;
-        justify-content: space-between;
+        justify-content: space-evenly;
         align-items: stretch;
         width: 100%;
-        height: calc(100vh - 5rem);
-        /* leave space for controls */
+        flex: 1;
         background: #000;
         margin: 0;
         padding: 0;
-        gap: 0;
-        /* remove visual gap */
     }
 
-    /* === Video boxes (my + peer) === */
     #myStream,
     #peerStream {
-        flex: 1;
+        position: relative;
+        flex: 1 1 50%;
         width: 100%;
-        min-width: unset;
         display: flex;
         justify-content: center;
         align-items: center;
         background: #000;
+        overflow: hidden;
     }
 
     .video-box {
@@ -244,7 +241,7 @@ select {
         display: none;
     }
 
-    /* === When controls are hidden, fill full screen === */
+    /* === Auto-expand videos when controls are hidden === */
     .controls.hidden-controls {
         opacity: 0;
         transform: translateY(100%);
@@ -256,7 +253,7 @@ select {
     }
 
     body.controls-hidden #call {
-        padding-bottom: 0;
+        height: 100vh;
     }
 }
 
@@ -291,4 +288,8 @@ select {
     opacity: 0;
     transform: translateY(100%);
     pointer-events: none;
+}
+
+.video-container {
+    transition: height 0.4s ease;
 }

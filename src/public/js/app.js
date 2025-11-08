@@ -85,13 +85,13 @@ async function initCall() {
     await new Promise((res) => setTimeout(res, 150));
 
     try {
-        await getMedia(); // get camera and mic stream
+        await getMedia();
         makeConnection();
 
         setTimeout(() => {
             call.classList.remove("hidden");
-            document.body.style.background = "#000"; // visually reset
-        }, 400);
+            document.body.style.background = "#000";
+        }, 300);
     } catch (err) {
         alert("Camera access failed. Please allow permission and reload.");
         console.error(err);
