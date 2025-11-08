@@ -1,6 +1,6 @@
 const express = require("express");
 const http = require("http");
-const Server = require("socket.io");
+const { Server } = require("socket.io");
 const { instrument } = require("@socket.io/admin-ui");
 
 
@@ -20,7 +20,7 @@ app.get("/", (_, res) => res.redirect("/zoom"));
 
 // HTTP + Socket.io
 const httpServer = http.createServer(app);
-const wsServer = Server(httpServer, {
+const wsServer = new Server(httpServer, {
     cors: {
         origin: ["https://admin.socket.io"],
         credentials: true,
