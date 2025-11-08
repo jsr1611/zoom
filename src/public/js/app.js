@@ -187,4 +187,27 @@ if (window.innerWidth < 900) {
         myStreamEl.style.right = "1rem";
     });
 }
+// === Auto-hide controls on mobile (like Zoom / FaceTime) ===
+if (window.innerWidth < 900) {
+    const controls = document.querySelector(".controls");
+    let hideTimeout;
+
+    function showControls() {
+        controls.classList.remove("hidden-controls");
+        clearTimeout(hideTimeout);
+        hideTimeout = setTimeout(() => {
+            controls.classList.add("hidden-controls");
+        }, 3000); // hide after 3 seconds
+    }
+
+    // Show controls on tap anywhere
+    document.body.addEventListener("touchstart", showControls);
+    document.body.addEventListener("click", showControls);
+
+    // Start hidden after 3s of load
+    hideTimeout = setTimeout(() => {
+        controls.classList.add("hidden-controls");
+    }, 3000);
+}
+
 

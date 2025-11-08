@@ -24,14 +24,15 @@ html(lang="en")
           div#myStream
             div.video-box
                 video#myFace(autoplay, playsinline, muted)
-            div.controls
-              button#mute Mute
-              button#camera Turn Camera Off
-              select#cameras
 
           div#peerStream
             div.video-box
               video#peerFace(autoplay, playsinline)
+        
+        div.controls
+              button#mute Mute
+              button#camera Turn Camera Off
+              select#cameras
 
 
     script(src="/zoom/socket.io/socket.io.js")
