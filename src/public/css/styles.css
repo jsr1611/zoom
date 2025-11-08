@@ -147,12 +147,14 @@ select {
 /* === MOBILE LAYOUT (Picture-in-Picture) === */
 @media (max-width: 900px) {
 
-    body,
-    html {
+    html,
+    body {
         height: 100%;
+        margin: 0;
+        padding: 0;
         overflow: hidden;
         background: #fafafa;
-        /* keep join screen bright */
+        /* normal join background */
     }
 
     #welcome {
@@ -162,11 +164,11 @@ select {
         height: 100%;
     }
 
-    /* Video call container */
     #call {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         width: 100%;
         height: 100vh;
         background: #000;
@@ -176,16 +178,15 @@ select {
 
     .video-container {
         position: relative;
+        flex: 1;
         width: 100%;
         height: 100%;
-        flex: 1;
         display: flex;
         justify-content: center;
         align-items: center;
-        background: #000;
     }
 
-    /* Fullscreen peer video */
+    /* === Peer Video Fullscreen === */
     #peerStream {
         position: absolute;
         inset: 0;
@@ -199,9 +200,23 @@ select {
         background: #000;
     }
 
-    /* Floating local video */
+    /* === Self Video Behavior === */
     #myStream {
         position: absolute;
+        z-index: 2;
+        transition: all 0.4s ease;
+    }
+
+    /* If no peer video yet (alone in room) → center full */
+    #peerFace:not([src])+#myStream,
+    #peerStream video[src=""]~#myStream {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Default small PiP window when peer video present */
+    #myStream {
         bottom: 6rem;
         right: 1rem;
         width: 35%;
@@ -210,7 +225,6 @@ select {
         overflow: hidden;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         background: #000;
-        z-index: 2;
     }
 
     #myStream video {
@@ -219,7 +233,7 @@ select {
         object-fit: cover;
     }
 
-    /* Control bar */
+    /* === Controls Bar === */
     .controls {
         position: fixed;
         bottom: 0;
@@ -254,7 +268,6 @@ select {
         display: none;
     }
 }
-
 
 
 @media (orientation: landscape) and (max-width: 900px) {
