@@ -10,15 +10,31 @@ const PORT = 3000;
 // View + static setup
 app.set("view engine", "pug");
 app.set("views", __dirname + "/views");
+<<<<<<< Updated upstream
 app.use("/public", express.static(__dirname + "/public"));
 app.get("/", (_, res) => res.render("home"));
 app.get("/*", (_, res) => res.redirect("/"));
+=======
+app.use("/zoom", express.static(__dirname+"/public"));
+app.get("/zoom/health", (_, res) => res.status(200).send("OK"));
+app.get(["/zoom","/zoom/"], (_, res) => res.render("home"));
+app.get("/", (_, res) => res.redirect("/zoom"));
+>>>>>>> Stashed changes
 
 
 // HTTP + Socket.io
 const httpServer = http.createServer(app);
+<<<<<<< Updated upstream
 const wsServer = new Server(httpServer, {
     cors: { origin: ["https://admin.socket.io"], credentials: true },
+=======
+const wsServer = Server(httpServer, {
+    cors: {
+        origin: ["https://admin.socket.io"],
+        credentials: true,
+    },
+    path: "/zoom/socket.io/"
+>>>>>>> Stashed changes
 });
 instrument(wsServer, { auth: false });
 

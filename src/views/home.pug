@@ -4,11 +4,11 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        link(rel="stylesheet", href="https://unpkg.com/mvp.css") 
+        link(rel="stylesheet", href="https://unpkg.com/mvp.css")
         title Yaqin
-    body 
-        header 
-            h1 Yaqin 
+    body
+        header
+            h1 Yaqin
         main
             div#welcome
                 form
@@ -16,6 +16,7 @@ html(lang="en")
                     button Enter Room
             div#call
                 div#myStream
+<<<<<<< Updated upstream
                     video#myFace(autoplay,playsinline, width="400", height="400") 
                     button#mute Mute 
                     button#camera Turn Camera Off
@@ -25,3 +26,12 @@ html(lang="en")
         script(src="/public/js/app.js")
 
     
+=======
+                    video#myFace(autoplay, playsinline, width="400", height="400")
+                    button#mute Mute
+                    button#camera Turn Camera Off
+                    select#cameras
+                video#peerFace(autoplay, playsinline, width="400", height="400")
+        script(src="/zoom/socket.io/socket.io.js")
+        script(src="/zoom/js/app.js")    
+>>>>>>> Stashed changes
