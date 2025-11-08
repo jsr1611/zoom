@@ -168,7 +168,13 @@ function handleAddStream(event) {
     console.log("✅ Remote stream received");
     const peerFace = document.getElementById("peerFace");
     peerFace.srcObject = event.stream;
+
+    // ✅ Activate mobile layout transition
+    const peerStreamDiv = document.getElementById("peerStream");
+    peerStreamDiv.classList.add("has-video");
+    document.getElementById("call").classList.add("peer-active");
 }
+
 
 // === Mobile PiP drag (active only on mobile) ===
 if (window.innerWidth < 900) {

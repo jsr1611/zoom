@@ -144,7 +144,7 @@ select {
     padding: 0.5rem 0.75rem;
 }
 
-/* === MOBILE LAYOUT (Picture-in-Picture) === */
+/* === MOBILE LAYOUT (Picture-in-Picture for mobile) === */
 @media (max-width: 900px) {
 
     html,
@@ -154,7 +154,6 @@ select {
         padding: 0;
         overflow: hidden;
         background: #fafafa;
-        /* normal join background */
     }
 
     #welcome {
@@ -184,13 +183,19 @@ select {
         display: flex;
         justify-content: center;
         align-items: center;
+        background: #000;
     }
 
-    /* === Peer Video Fullscreen === */
+    /* === Peer Stream: hidden until remote video exists === */
     #peerStream {
         position: absolute;
         inset: 0;
         z-index: 1;
+        display: none;
+    }
+
+    #peerStream.has-video {
+        display: block;
     }
 
     #peerStream video {
@@ -200,31 +205,27 @@ select {
         background: #000;
     }
 
-    /* === Self Video Behavior === */
+    /* === Self Stream === */
     #myStream {
         position: absolute;
         z-index: 2;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        overflow: hidden;
         transition: all 0.4s ease;
     }
 
-    /* If no peer video yet (alone in room) → center full */
-    #peerFace:not([src])+#myStream,
-    #peerStream video[src=""]~#myStream {
-        position: relative;
-        width: 100%;
-        height: 100%;
-    }
-
-    /* Default small PiP window when peer video present */
-    #myStream {
+    /* === When peer joins → shrink to PiP === */
+    #call.peer-active #myStream {
         bottom: 6rem;
         right: 1rem;
         width: 35%;
+        height: auto;
+        aspect-ratio: 16 / 9;
         max-width: 160px;
         border-radius: 10px;
-        overflow: hidden;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        background: #000;
     }
 
     #myStream video {
@@ -268,6 +269,7 @@ select {
         display: none;
     }
 }
+
 
 
 @media (orientation: landscape) and (max-width: 900px) {
