@@ -86,6 +86,7 @@ async function initCall() {
 
     try {
         await getMedia();
+        document.querySelector(".video-container").style.height = "100vh";
         makeConnection();
 
         setTimeout(() => {
@@ -178,8 +179,8 @@ function handleAddStream(event) {
     const peerFace = document.getElementById("peerFace");
     peerFace.srcObject = event.stream;
 
-    // Mark that a peer exists → triggers PiP style on mobile
     document.body.classList.add("has-peer");
+    document.querySelector(".video-container").style.height = "calc(100vh - 5rem)";
 }
 
 

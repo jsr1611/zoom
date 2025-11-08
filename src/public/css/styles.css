@@ -144,7 +144,7 @@ select {
     padding: 0.5rem 0.75rem;
 }
 
-/* === MOBILE LAYOUT (Picture-in-Picture for mobile) === */
+/* === MOBILE LAYOUT === */
 @media (max-width: 900px) {
 
     html,
@@ -159,7 +159,7 @@ select {
     #call {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
         width: 100%;
         height: 100vh;
@@ -168,29 +168,37 @@ select {
         position: relative;
     }
 
-    /* === Stack videos vertically (peer on top, self on bottom) === */
+    /* === Stacked layout === */
     .video-container {
         display: flex;
-        flex-direction: column-reverse;
-        justify-content: space-evenly;
+        flex-direction: column;
+        /* guest on top, my video below */
+        justify-content: space-between;
         align-items: stretch;
         width: 100%;
-        flex: 1;
+        height: calc(100vh - 5rem);
+        /* space for controls */
         background: #000;
-        margin: 0;
-        padding: 0;
     }
 
-    #myStream,
+    /* === Guest (remote) video === */
     #peerStream {
-        position: relative;
-        flex: 1 1 50%;
+        flex: 1;
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         background: #000;
-        overflow: hidden;
+    }
+
+    /* === My (self) video below === */
+    #myStream {
+        flex: 1;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #000;
     }
 
     .video-box {
@@ -198,7 +206,6 @@ select {
         height: 100%;
         background: #000;
         border-radius: 0;
-        box-shadow: none;
         overflow: hidden;
     }
 
@@ -207,12 +214,11 @@ select {
         height: 100%;
         object-fit: cover;
         display: block;
-        background: #000;
     }
 
-    /* === Compact Controls === */
+    /* === Compact controls (over my video) === */
     .controls {
-        position: fixed;
+        position: absolute;
         bottom: 0;
         left: 0;
         width: 100%;
@@ -237,26 +243,22 @@ select {
         border-radius: 8px;
     }
 
-    header {
-        display: none;
-    }
-
-    /* === Auto-expand videos when controls are hidden === */
+    /* === Hide controls smoothly === */
     .controls.hidden-controls {
         opacity: 0;
         transform: translateY(100%);
         pointer-events: none;
     }
 
+    /* === Expand both videos fully when controls hidden === */
     body.controls-hidden .video-container {
         height: 100vh;
     }
 
-    body.controls-hidden #call {
-        height: 100vh;
+    header {
+        display: none;
     }
 }
-
 
 
 @media (orientation: landscape) and (max-width: 900px) {
