@@ -141,6 +141,11 @@ socket.on("ice", async (ice) => {
     await myPeerConnection.addIceCandidate(ice);
 });
 
+socket.on("peer_left", () => {
+    document.body.classList.remove("has-peer");
+});
+
+
 // 🧠 WebRTC setup
 function makeConnection() {
     myPeerConnection = new RTCPeerConnection({
@@ -169,10 +174,8 @@ function handleAddStream(event) {
     const peerFace = document.getElementById("peerFace");
     peerFace.srcObject = event.stream;
 
-    // ✅ Activate mobile layout transition
-    const peerStreamDiv = document.getElementById("peerStream");
-    peerStreamDiv.classList.add("has-video");
-    document.getElementById("call").classList.add("peer-active");
+    // Mark that a peer exists → triggers PiP style on mobile
+    document.body.classList.add("has-peer");
 }
 
 

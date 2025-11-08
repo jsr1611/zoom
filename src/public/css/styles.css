@@ -221,28 +221,44 @@ select {
         box-shadow: none;
     }
 
-    /* === Controls bar === */
+    /* === Compact Controls Bar === */
     .controls {
         position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;
-        background: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.9);
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 0.5rem;
-        padding: 0.75rem;
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.25);
+        gap: 0.4rem;
+        padding: 0.4rem 0.6rem;
+        box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.25);
         z-index: 3;
+        backdrop-filter: blur(6px);
     }
 
-    button,
-    select {
-        width: 90%;
-        max-width: 320px;
-        font-size: 1rem;
+    .controls button,
+    .controls select {
+        width: 88%;
+        max-width: 280px;
+        font-size: 0.9rem;
+        padding: 0.45rem 0.7rem;
         border-radius: 8px;
+    }
+
+    .controls button {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .controls button:hover {
+        background-color: #0062cc;
+    }
+
+    .controls select {
+        background: #f5f5f5;
+        color: #333;
     }
 
     header {
