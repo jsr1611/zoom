@@ -1,6 +1,6 @@
-// ✅ FIX: connect to correct Socket.IO path
+// ✅ Connect to correct Socket.IO path
 const socket = io({
-    path: "/zoom/socket.io/"
+    path: "/zoom/socket.io/",
 });
 
 socket.on("connect", () => {
@@ -12,8 +12,10 @@ const muteBtn = document.getElementById("mute");
 const videoBtn = document.getElementById("camera");
 const cameraSelect = document.getElementById("cameras");
 const call = document.getElementById("call");
+const welcome = document.getElementById("welcome");
+const welcomeForm = welcome.querySelector("form");
 
-call.hidden = true;
+call.classList.add("hidden"); // hide video area before joining
 
 let myStream;
 let muted = false;
@@ -78,12 +80,11 @@ cameraSelect.addEventListener("input", async () => {
 });
 
 // 🧩 Room join logic
-const welcome = document.getElementById("welcome");
-const welcomeForm = welcome.querySelector("form");
-
 async function initCall() {
-    welcome.hidden = true;
-    call.hidden = false;
+    // Hide the join form and show video area
+    welcome.classList.add("hidden");
+    call.classList.remove("hidden");
+
     await getMedia();
     makeConnection();
 }
@@ -91,7 +92,11 @@ async function initCall() {
 welcomeForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const input = welcomeForm.querySelector("input");
-    roomName = input.value;
+    roomName = input.value.trim();
+    if (!roomName) return;
+    document.getElementById("roomLabel").textContent = `Room: ${roomName}`;
+    document.getElementById("roomLabel").classList.remove("hidden");
+
     console.log("🎯 Joining room:", roomName);
     await initCall();
     socket.emit("join_room", roomName);
