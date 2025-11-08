@@ -159,3 +159,32 @@ function handleAddStream(event) {
     const peerFace = document.getElementById("peerFace");
     peerFace.srcObject = event.stream;
 }
+
+// === Mobile PiP drag (active only on mobile) ===
+if (window.innerWidth < 900) {
+    const myStreamEl = document.getElementById("myStream");
+    let offsetX = 0, offsetY = 0;
+
+    myStreamEl.addEventListener("touchstart", (e) => {
+        const touch = e.touches[0];
+        offsetX = touch.clientX - myStreamEl.getBoundingClientRect().left;
+        offsetY = touch.clientY - myStreamEl.getBoundingClientRect().top;
+    });
+
+    myStreamEl.addEventListener("touchmove", (e) => {
+        const touch = e.touches[0];
+        myStreamEl.style.left = `${touch.clientX - offsetX}px`;
+        myStreamEl.style.top = `${touch.clientY - offsetY}px`;
+        myStreamEl.style.bottom = "auto";
+        myStreamEl.style.right = "auto";
+    });
+
+    // optional: limit dragging inside screen
+    window.addEventListener("resize", () => {
+        myStreamEl.style.left = "";
+        myStreamEl.style.top = "";
+        myStreamEl.style.bottom = "1rem";
+        myStreamEl.style.right = "1rem";
+    });
+}
+
