@@ -43,8 +43,22 @@ async function getCameras() {
 }
 
 async function getMedia(deviceId) {
-    const initialConstraints = { audio: true, video: { facingMode: "user" } };
-    const cameraConstraints = { audio: true, video: { deviceId: { exact: deviceId } } };
+    const baseAudioConstraints = {
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true,
+    };
+
+    const initialConstraints = {
+        audio: baseAudioConstraints,
+        video: { facingMode: "user" },
+    };
+
+    const cameraConstraints = {
+        audio: baseAudioConstraints,
+        video: { deviceId: { exact: deviceId } },
+    };
+
     try {
         myStream = await navigator.mediaDevices.getUserMedia(
             deviceId ? cameraConstraints : initialConstraints
@@ -55,6 +69,7 @@ async function getMedia(deviceId) {
         console.log(error);
     }
 }
+
 
 muteBtn.addEventListener("click", () => {
     myStream.getAudioTracks().forEach((track) => (track.enabled = !track.enabled));
