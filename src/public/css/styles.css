@@ -149,53 +149,35 @@ select {
 
     html,
     body {
-        height: 100%;
         margin: 0;
         padding: 0;
-        overflow: hidden;
-        background: #fafafa;
-    }
-
-    #welcome {
-        display: flex;
-        justify-content: center;
-        align-items: center;
         height: 100%;
+        overflow: hidden;
+        background: #000;
     }
 
     #call {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        position: relative;
         width: 100%;
         height: 100vh;
         background: #000;
-        position: relative;
         overflow: hidden;
     }
 
     .video-container {
         position: relative;
-        flex: 1;
         width: 100%;
         height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #000;
     }
 
-    /* === Peer Stream: hidden until remote video exists === */
+    /* === Fullscreen remote video === */
     #peerStream {
         position: absolute;
-        inset: 0;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         z-index: 1;
-        display: none;
-    }
-
-    #peerStream.has-video {
-        display: block;
     }
 
     #peerStream video {
@@ -205,27 +187,21 @@ select {
         background: #000;
     }
 
-    /* === Self Stream === */
+    /* === Floating self-view (PiP) === */
     #myStream {
         position: absolute;
-        z-index: 2;
-        width: 100%;
-        height: 100%;
-        background: #000;
-        overflow: hidden;
-        transition: all 0.4s ease;
-    }
-
-    /* === When peer joins → shrink to PiP === */
-    #call.peer-active #myStream {
         bottom: 6rem;
+        /* leave space for control bar */
         right: 1rem;
         width: 35%;
-        height: auto;
+        max-width: 150px;
         aspect-ratio: 16 / 9;
-        max-width: 160px;
         border-radius: 10px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        overflow: hidden;
+        z-index: 2;
+        background: #000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        transition: all 0.3s ease;
     }
 
     #myStream video {
@@ -234,27 +210,31 @@ select {
         object-fit: cover;
     }
 
-    /* === Controls Bar === */
+    /* === Center self-view fullscreen when alone === */
+    body:not(.has-peer) #myStream {
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        border-radius: 0;
+        bottom: 0;
+        right: 0;
+        box-shadow: none;
+    }
+
+    /* === Controls bar === */
     .controls {
         position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;
-        background: rgba(255, 255, 255, 0.97);
+        background: rgba(255, 255, 255, 0.95);
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 0.5rem;
-        padding: 0.8rem;
-        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.25);
-        z-index: 5;
-        transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-
-    .controls.hidden-controls {
-        opacity: 0;
-        transform: translateY(100%);
-        pointer-events: none;
+        padding: 0.75rem;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.25);
+        z-index: 3;
     }
 
     button,
