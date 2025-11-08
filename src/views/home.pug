@@ -17,23 +17,18 @@ html(lang="en")
         form
           input(placeholder="room name", required, type="text")
           button Enter Room
-
       // 👇 hidden until user joins a room
       div#call.hidden
         div.video-container
-          div#myStream
-            div.video-box
-                video#myFace(autoplay, playsinline, muted)
-
           div#peerStream
             div.video-box
               video#peerFace(autoplay, playsinline)
-        
+          div#myStream
+            div.video-box
+                video#myFace(autoplay, playsinline, muted)
         div.controls
               button#mute Mute
               button#camera Turn Camera Off
               select#cameras
-
-
     script(src="/zoom/socket.io/socket.io.js")
     script(src="/zoom/js/app.js")
