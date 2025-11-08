@@ -23,6 +23,11 @@ header h1 {
     font-weight: 700;
 }
 
+header,
+main {
+    padding: 0, 0;
+}
+
 #roomLabel {
     font-size: 1.1rem;
     color: #555;
@@ -41,7 +46,7 @@ header h1 {
     width: 100%;
     max-width: 1400px;
     padding: 1rem;
-    min-height: 100vh;
+    /* min-height: 100vh; */
     background: #000;
 }
 
