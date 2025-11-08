@@ -79,15 +79,17 @@ cameraSelect.addEventListener("input", async () => {
     }
 });
 
+
 // 🧩 Room join logic
 async function initCall() {
-    // Hide the join form and show video area
     welcome.classList.add("hidden");
-    call.classList.remove("hidden");
-
     await getMedia();
     makeConnection();
+    setTimeout(() => {
+        call.classList.remove("hidden");
+    }, 300);
 }
+
 
 welcomeForm.addEventListener("submit", async (event) => {
     event.preventDefault();
