@@ -118,8 +118,12 @@ socket.on("welcome", async () => {
     console.log("👋 Someone joined the room");
     const offer = await myPeerConnection.createOffer();
     await myPeerConnection.setLocalDescription(offer);
+    document.body.classList.add("has-peer");
     console.log("📤 Sent offer");
     socket.emit("offer", offer, roomName);
+});
+socket.on("disconnect_peer", () => {
+    document.body.classList.remove("has-peer");
 });
 
 socket.on("offer", async (offer) => {

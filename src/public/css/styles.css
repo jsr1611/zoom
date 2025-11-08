@@ -168,6 +168,7 @@ select {
         position: relative;
         width: 100%;
         height: 100%;
+        isolation: isolate;
     }
 
     /* Force override desktop flex layout for mobile */
@@ -197,18 +198,21 @@ select {
     /* === Floating self-view (PiP) === */
     #myStream {
         position: absolute;
-        bottom: calc(4.8rem + env(safe-area-inset-bottom, 0px));
+        bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
         right: 1rem;
-        width: 35%;
-        max-width: 150px;
+        width: 32%;
+        max-width: 140px;
         aspect-ratio: 16 / 9;
         border-radius: 10px;
         overflow: hidden;
-        z-index: 2;
+        z-index: 5;
+        /* higher than peer stream */
         background: #000;
+        border: 1px solid rgba(255, 255, 255, 0.25);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
         transition: all 0.3s ease;
     }
+
 
     #myStream video {
         width: 100%;
